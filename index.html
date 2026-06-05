@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Order Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">📦</span>
+        <span class="logo-text">Smart Order Tracker</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#order-form">Buat Order</a>
+        <a href="#status-section">Cek Status</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Pesan Produk dengan<br /><span class="highlight">Mudah &amp; Cepat</span></h1>
+      <p class="hero-subtitle">
+        Sistem order otomatis dengan notifikasi real-time.<br />
+        Didukung teknologi AI &amp; n8n untuk pengalaman belanja terbaik.
+      </p>
+      <a href="#order-form" class="btn-primary">Buat Order Sekarang &#8594;</a>
+    </div>
+    <div class="hero-badges">
+      <div class="badge"><span>🤖</span> AI Powered</div>
+      <div class="badge"><span>⚡</span> Real-time</div>
+      <div class="badge"><span>📱</span> Notifikasi Telegram</div>
+    </div>
+  </section>
+
+  <!-- FORM ORDER -->
+  <section id="order-form" class="form-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Form Order</h2>
+        <p>Isi data di bawah ini untuk membuat order baru</p>
+      </div>
+
+      <div class="form-card">
+        <!-- PROGRESS BAR -->
+        <div class="progress-bar">
+          <div class="progress-step active" id="step-indicator-1">
+            <div class="step-circle">1</div>
+            <span>Data Diri</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step" id="step-indicator-2">
+            <div class="step-circle">2</div>
+            <span>Detail Order</span>
+          </div>
+          <div class="progress-line"></div>
+          <div class="progress-step" id="step-indicator-3">
+            <div class="step-circle">3</div>
+            <span>Konfirmasi</span>
+          </div>
+        </div>
+
+        <form id="orderForm" novalidate>
+
+          <!-- STEP 1: Data Diri -->
+          <div class="form-step" id="step-1">
+            <h3 class="step-title">&#128203; Data Diri</h3>
+
+            <div class="form-group">
+              <label for="nama">Nama Lengkap <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">👤</span>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap Anda" required />
+              </div>
+              <span class="error-msg" id="nama-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Alamat Email <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">✉️</span>
+                <input type="email" id="email" name="email" placeholder="contoh@email.com" required />
+              </div>
+              <span class="error-msg" id="email-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="telepon">Nomor Telepon <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">📱</span>
+                <input type="tel" id="telepon" name="telepon" placeholder="08xxxxxxxxxx" required />
+              </div>
+              <span class="error-msg" id="telepon-error"></span>
+            </div>
+
+            <div class="form-navigation">
+              <div></div>
+              <button type="button" class="btn-next" onclick="nextStep(2)">Selanjutnya &#8594;</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Detail Order -->
+          <div class="form-step hidden" id="step-2">
+            <h3 class="step-title">🛍️ Detail Order</h3>
+
+            <div class="form-group">
+              <label for="produk">Produk <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">📦</span>
+                <select id="produk" name="produk" required>
+                  <option value="">-- Pilih Produk --</option>
+                  <option value="Laptop Asus VivoBook 14">Laptop Asus VivoBook 14 - Rp 7.500.000</option>
+                  <option value="Mouse Wireless Logitech MX">Mouse Wireless Logitech MX - Rp 350.000</option>
+                  <option value="Keyboard Mechanical Keychron K2">Keyboard Mechanical Keychron K2 - Rp 1.200.000</option>
+                  <option value="Monitor LG 24 Inch IPS">Monitor LG 24 Inch IPS - Rp 2.800.000</option>
+                  <option value="Headset Sony WH-1000XM5">Headset Sony WH-1000XM5 - Rp 4.500.000</option>
+                  <option value="Webcam Logitech C920">Webcam Logitech C920 - Rp 1.100.000</option>
+                </select>
+              </div>
+              <span class="error-msg" id="produk-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="jumlah">Jumlah <span class="required">*</span></label>
+              <div class="input-wrapper quantity-wrapper">
+                <button type="button" class="qty-btn" onclick="changeQty(-1)">&#8722;</button>
+                <input type="number" id="jumlah" name="jumlah" value="1" min="1" max="99" required />
+                <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+              </div>
+              <span class="error-msg" id="jumlah-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="catatan">Catatan Tambahan</label>
+              <div class="input-wrapper">
+                <textarea id="catatan" name="catatan" placeholder="Warna, ukuran, atau instruksi khusus..." rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="alamat">Alamat Pengiriman <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <span class="input-icon">📍</span>
+                <textarea id="alamat" name="alamat" placeholder="Jl. Contoh No. 123, Kelurahan, Kecamatan, Kota, Provinsi, Kode Pos" rows="3" required></textarea>
+              </div>
+              <span class="error-msg" id="alamat-error"></span>
+            </div>
+
+            <div class="form-navigation">
+              <button type="button" class="btn-back" onclick="prevStep(1)">&#8592; Kembali</button>
+              <button type="button" class="btn-next" onclick="nextStep(3)">Selanjutnya &#8594;</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Konfirmasi -->
+          <div class="form-step hidden" id="step-3">
+            <h3 class="step-title">✅ Konfirmasi Order</h3>
+            <p class="step-desc">Pastikan semua data sudah benar sebelum mengirim order.</p>
+
+            <div class="summary-card">
+              <div class="summary-title">📋 Ringkasan Order</div>
+              <div class="summary-grid" id="order-summary"></div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agreement" required />
+                <span class="checkmark"></span>
+                Saya menyetujui <a href="#">syarat dan ketentuan</a> yang berlaku
+              </label>
+              <span class="error-msg" id="agreement-error"></span>
+            </div>
+
+            <div class="form-navigation">
+              <button type="button" class="btn-back" onclick="prevStep(2)">&#8592; Kembali</button>
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span class="btn-text">🚀 Kirim Order</span>
+                <span class="btn-loader hidden">⏳ Memproses...</span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CEK STATUS ORDER -->
+  <section id="status-section" class="status-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Cek Status Order</h2>
+        <p>Masukkan Order ID untuk melihat status terkini</p>
+      </div>
+
+      <div class="status-card">
+        <div class="status-input-group">
+          <input type="text" id="orderIdInput" placeholder="Contoh: ORD-20240601143022" />
+          <button class="btn-check" onclick="checkStatus()">🔍 Cek Status</button>
+        </div>
+        <div id="status-result" class="status-result hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay hidden" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">🎉</div>
+      <h3>Order Berhasil Dikirim!</h3>
+      <p>Order kamu telah diterima dan sedang diproses. Notifikasi akan dikirim ke Telegram admin.</p>
+      <div class="modal-order-id" id="modalOrderId"></div>
+      <p class="modal-note">Simpan Order ID di atas untuk mengecek status ordermu.</p>
+      <button class="btn-primary" onclick="closeModal()">Buat Order Baru</button>
+    </div>
+  </div>
+
+  <!-- ERROR MODAL -->
+  <div class="modal-overlay hidden" id="errorModal">
+    <div class="modal-box modal-error">
+      <div class="modal-icon">❌</div>
+      <h3>Gagal Mengirim Order</h3>
+      <p id="errorMessage">Terjadi kesalahan. Silakan coba lagi.</p>
+      <button class="btn-primary" onclick="closeErrorModal()">Coba Lagi</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&#169; 2024 Smart Order Tracker | Powered by n8n &amp; AI | Tugas RPA</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
